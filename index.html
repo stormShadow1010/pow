@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>mdoodle - Distraction Free Online Markdown Editor</title>
+        <link rel="stylesheet" href="styles.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/neo.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/markdown/markdown.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.8/marked.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+
+        
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&family=Itim&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="favicon.svg">
+    </head>
+
+    <body>
+        <header class="header">
+            <div class="left">
+                <div class="logo-containter">
+                    <div class="logo">
+                        <span class="md teal">m</span><span class="md coral">d</span>
+                        <span class="mdoodle hidden">
+                            <span>m</span><span>d</span><span class="teal">o</span><span class="coral">o</span><span>d</span><span>l</span><span>e</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <div class="tool-group undo-redo">
+                        <!-- Undo-redo -->
+                        <div class="tooltip">
+                            <img class="icon" id="undo-icon" src="icons/ArrowArcLeft.svg?" alt="undo">
+                            <span class="tooltiptext">Undo</span>
+                        </div>
+                        <div class="tooltip">
+                            <img class="icon" id="redo-icon" src="icons/ArrowArcRight.svg?" alt="undo">
+                            <span class="tooltiptext">Redo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="version hidden-sm">
+                    <div class="tooltip">
+                        <span class="alpha-text">alpha</span>
+                        <span class="tooltiptext">Version</span>
+                    </div>
+                </div>
+            </div>
+                <!-- Filename -->
+                <div class="tooltip">
+                    <span id="filename">Untitled</span>
+                    <span class="tooltiptext">Double-click to edit</span>
+                </div>
+
+            <div class="right">
+                <div class="tool-group">
+                    <!-- Save and Publish Tools -->
+                     <div class="tooltip">
+                        <img class="icon" id="theme-toggle" src="icons/CircleHalf.svg" alt="Dark/Light mode">
+                        <span class="tooltiptext">Change Theme</span>
+                    </div>
+                    <div class="tooltip">
+                        <img class="icon" id="popupButton" src="icons/target.svg" alt="Word Target">
+                        <span class="tooltiptext">Set Word Target</span>
+                    </div>
+                    <div class="tooltip">
+                        <img class="icon hidden-sm" src="icons/Option.svg" alt="Shortcuts">
+                        <span class="tooltiptext">Shortcuts</span>
+                    </div>
+                </div>
+                <div class="tool-group">
+                    <!-- Save and Publish Tools -->
+                    <div id="fullscreen-container" class="hidden-sm">
+                        <div class="tooltip">
+                            <img id="enter-fullscreen" class="icon fullscreen-icon visible" src="icons/ArrowsOut.svg" alt="Fullscreen">
+                            <span class="tooltiptext">Enter Fullscreen</span>
+                        </div>
+                        <div class="tooltip">
+                            <img id="exit-fullscreen" class="icon fullscreen-icon" src="icons/exitfullscreen.svg" alt="Exit Fullscreen">
+                            <span class="tooltiptext">Exit Fullscreen</span>
+                        </div>
+                    </div>
+                    <div class="tooltip">
+                        <img class="icon hidden-sm" src="icons/GearSix.svg" alt="Settings">
+                        <span class="tooltiptext">Settings</span>
+                    </div>
+                    <div class="tooltip">
+                        <img class="icon" src="icons/ArrowUpRight.svg" alt="Publish">
+                        <span class="tooltiptext">Publish</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Markdown Editor -->
+
+        <div class="editor-container">
+            <textarea id="markdown-editor" placeholder="Hooray! It finally works. Try typing here 🥸 "></textarea>
+            <div class="separator"></div>
+            <div id="preview"></div>
+        </div>
+
+        <!-- Target Popup -->
+        <div id="popup" class="popup">
+            <div class="target-popup">
+                <div>Word Target</div>
+                <input type="number" id="taget-number" name="word count" placeholder="400">
+                <button type="button">Set</button>
+            </div>
+        </div>
+
+<!-- Version popup -->
+        <!-- <div id="version-popup" class="popup">
+            <div class="popup-content">
+            <h3>Version History</h3>
+            <p>Details about version history can go here.</p>
+            <button id="close-popup-btn">Close</button>
+            </div>
+        </div> -->
+<!-- Footer -->
+        <footer class="footer">
+            <div id="banner" class="banner">
+                <div class="banner-content">
+                    <div class="banner-left">
+                        <div>This editor is free to use. Consider supporting the website hosting if you find it helpful</div>        
+                        <a href="https://buymeacoffee.com/rajathc" class="coffee-button" target="_blank">
+                            <span>☕️ Buy me a Coffee</span>
+                        </a>
+                    </div>
+                    <div class="close-btn" id="close-btn">&times;</div>
+                </div>
+            </div>
+            </dix>
+            <div class="footer-data">
+                <div class="word-counter" id="word-counter">
+                    <span class="footer-text" id="word-count">0</span> <span class="footer-text" id="word-label">words</span>
+                </div>
+            </div>
+        </footer>   
+
+    </body>
+
+    <script src="script.js"></script>
+</html>
